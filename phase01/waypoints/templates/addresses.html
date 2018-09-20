@@ -1,0 +1,29 @@
+{% extends "navbar.html" %}
+
+{% block from_address %}
+<div class="col-sm">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">From:</span>
+        </div>
+        <input type="text" class="form-control"/>
+    </div>
+</div>
+{% endblock %}
+
+{% block to_address %}
+<div class="col-sm">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span id="fromAddress" class="input-group-text" id="basic-addon1">To:</span>
+        </div>
+        <input id="toAddress" type="text" class="form-control"/>
+    </div>
+</div>
+{% endblock %}
+
+{% block submit_address %}
+<div class="col-sm">
+    <button type="button" class="btn btn-dark">Get Route</button>
+</div>
+{% endblock %}
