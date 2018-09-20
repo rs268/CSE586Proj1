@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from waypoints.views import AppView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', AppView.as_view()),
+    path('admin/', admin.site.urls)
 ]
