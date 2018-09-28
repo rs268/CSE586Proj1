@@ -1,5 +1,6 @@
 {% extends "addresses.html" %}
 
 {% block map %}
-<p>Map goes here</p>
+<p ng-controller="waypointsAppController">{{ fromAddress }}</p>
+<p>{{ toAddress }}</p>
 {% endblock %}
