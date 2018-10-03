@@ -4,18 +4,18 @@
 <div class="col-sm">
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">From:</span>
+            <span class="input-group-text">From:</span>
         </div>
-        <input type="text" class="form-control"/>
+        <input id="fromAddress" type="text" class="form-control"/>
     </div>
 </div>
 {% endblock %}
 
 {% block to_address %}
-<div class="col-sm">
+<div class="col-sm" >
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span id="fromAddress" class="input-group-text" id="basic-addon1">To:</span>
+            <span class="input-group-text">To:</span>
         </div>
         <input id="toAddress" type="text" class="form-control"/>
     </div>
@@ -24,6 +24,6 @@
 
 {% block submit_address %}
 <div class="col-sm">
-    <button type="button" class="btn btn-dark">Get Route</button>
+    <button type="button" class="btn btn-dark" onclick="requestDirections()">Get Route</button>
 </div>
 {% endblock %}

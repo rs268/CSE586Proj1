@@ -9,7 +9,7 @@
         <meta name="author" content="Richard Simpson">
 
         <!-- Bootstrap CSS-->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        {% include 'css.html' %}
 
         <title>Waypoints Application</title>
     </head>
@@ -34,6 +34,11 @@
                 {% block submit_address %}
                 <!-- Get route button-->
                 {% endblock %}
+            </div>
+            <div class="row" id="map">
+                {% comment %} {% block map %}
+                <!-- Map goes here -->
+                {% endblock %} {% endcomment %}
             </div>
         </div>
         
