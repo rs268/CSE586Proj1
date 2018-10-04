@@ -8,7 +8,7 @@ class GoogleMapsAPI:
         now = datetime.now()
         gmaps = googlemaps.Client(key='AIzaSyC4LCIevV75PkJtJaPDi1rbqIkImDgo2S0')
 
-        directions_result = gmaps.directions(from_address, to_address, mode='driving', depature_time=now)
+        return gmaps.directions(from_address, to_address, mode='driving', departure_time=now)
 
 class OpenWeatherAPI:
 
