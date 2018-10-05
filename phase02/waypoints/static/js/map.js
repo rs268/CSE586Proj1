@@ -28,7 +28,6 @@ function requestDirections() {
             "destination": destination
         },
         success: function(result) {
-            console.log(result);
             renderDirections(result);
         }
     });
@@ -138,7 +137,6 @@ function setWeatherContent(lat, lng, window) {
             "lng": lng
         }, 
         success: function(result) {
-            console.log(result);
 
             var content = "<p>General: " + result.weather[0].description + "</p>";
             content += "<p>Wind: " + result.wind.speed.toString() + " m/s</p>";

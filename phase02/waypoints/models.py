@@ -6,8 +6,12 @@ class MapsDataModel(models.Model):
     destination = models.CharField(max_length=100)
     data = models.TextField()
 
+    objects = models.Manager()
+
 
 class WeatherDataModel(models.Model):
     lat = models.CharField(max_length=100)
     lng = models.CharField(max_length=100)
     data = models.TextField()
+
+    objects = models.Manager()

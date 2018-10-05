@@ -5,7 +5,11 @@ from waypoints.apis import GoogleMapsAPI, OpenWeatherAPI
 from django.core.cache import cache
 from waypoints.models import MapsDataModel, WeatherDataModel
 from django.core.exceptions import ObjectDoesNotExist
+import sys, warnings
 import json
+
+if not sys.warnoptions:
+    warnings.simplefilter('ignore')
 
 class AppView(View):
     template_name = 'addresses.html'
@@ -24,12 +28,21 @@ class AppView(View):
 
         key = origin + ' ' + destination
 
-        try:
-            query = MapsDataModel.objects.get(origin=origin, destination=destination)
-            cache.set(key, query.data)
-        except ObjectDoesNotExist:
-            directions = cache.get_or_set(key, GoogleMapsAPI.get_directions(origin, destination))
-            m = MapsDataModel(origin=origin, destination=destination, data=directions.__str__())
+        c = cache.get(key)
+
+        if c:
+            directions = json.loads(c)
+        else:
+            try:
+                query = MapsDataModel.objects.get(origin=origin, destination=destination)
+                directions = json.loads(query.data)
+                cache.set(key, json.dumps(directions))
+
+            except ObjectDoesNotExist:
+                directions = GoogleMapsAPI.get_directions(origin, destination)
+                cache.set(key, json.dumps(directions))
+                model = MapsDataModel(origin=origin, destination=destination, data=json.dumps(directions))
+                model.save()
 
         return JsonResponse(directions, safe=False)
 
@@ -40,18 +53,20 @@ class AppView(View):
 
         key = str(lat) + ' ' + str(lng)
 
-        weather = cache.get_or_set(key, OpenWeatherAPI.get_weather(lat, lng), None)
+        c = cache.get(key)
 
-        # weather = {"coord":{"lon":139,"lat":35},
-        #             "sys":{"country":"JP","sunrise":1369769524,"sunset":1369821049},
-        #             "weather":[{"id":804,"main":"clouds","description":"overcast clouds","icon":"04n"}],
-        #             "main":{"temp":289.5,"humidity":89,"pressure":1013,"temp_min":287.04,"temp_max":292.04},
-        #             "wind":{"speed":7.31,"deg":187.002},
-        #             "rain":{"3h":0},
-        #             "clouds":{"all":92},
-        #             "dt":1369824698,
-        #             "id":1851632,
-        #             "name":"Shuzenji",
-        #             "cod":200}
+        if c:
+            weather = json.loads(c)
+        else:
+            try:
+                query = WeatherDataModel.objects.get(lat=str(lat), lng=str(lng))
+                weather = json.loads(query.data)
+                cache.set(key, json.dumps(weather))
+
+            except ObjectDoesNotExist:
+                weather = OpenWeatherAPI.get_weather(lat, lng)
+                cache.set(key, json.dumps(weather))
+                model = WeatherDataModel(lat=str(lat), lng=str(lng), data=json.dumps(weather))
+                model.save()
 
         return JsonResponse(weather, safe=False)
