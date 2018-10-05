@@ -1,7 +1,14 @@
+/*
+JavaScript for rendering data on map and making AJAX requests.
+*/
+
 var map;
 var markers = [];
 var renderers = [];
+
 function initMap() {
+    // This function initializes the map
+
     map = new google.maps.Map($("#map")[0], {
       center: {lat: 42.880230, lng: -78.878738},
       zoom: 8
@@ -9,6 +16,9 @@ function initMap() {
 }
 
 function requestDirections() {
+    // This function sends an AJAX request to the web server
+    // to get the directions json
+
     origin = $("#origin").val();
     destination = $("#destination").val();
 
@@ -34,6 +44,8 @@ function requestDirections() {
 }
 
 function convertRoutes(result) {
+    // This function converts the json data for use by the DirectionsRenderer object
+    
     result.forEach(function(route) {
         route.bounds = asBounds(route.bounds);
 
@@ -55,25 +67,34 @@ function convertRoutes(result) {
 }
 
 function asBounds(boundsObject) {
+    // This function converts the json data for use by the DirectionsRenderer object
+
     return new google.maps.LatLngBounds(asLatLng(boundsObject.southwest),
                                         asLatLng(boundsObject.northeast));
 }
 
 function asLatLng(latlngObject) {
+    // This function converts the json data for use by the DirectionsRenderer object
+
     return new google.maps.LatLng(latlngObject.lat, latlngObject.lng);
 }
 
 function asPath(encodedPolyObject) {
+    // This function converts the json data for use by the DirectionsRenderer object
+
     return google.maps.geometry.encoding.decodePath(encodedPolyObject.points);
 }
 
 function getRequest() {
+    // This function converts the json data for use by the DirectionsRenderer object
+
     return {origin: $("#origin").val(), 
             destination: $("#destination").val(), 
             travelMode: "DRIVING"};
 }
 
 function renderDirections(result) {
+    // This function renders the directions data on the map
 
     markers.forEach(function(marker) {
         marker.setMap(null);
@@ -103,6 +124,8 @@ function renderDirections(result) {
 }
 
 function addMarkers(overview_path) {
+    // This function adds 12 evenly spaced markers to the map
+
     var mod = Math.floor(overview_path.length / 12);
 
     var index = 2 * mod;
@@ -129,6 +152,8 @@ function addMarkers(overview_path) {
 }
 
 function setWeatherContent(lat, lng, window) {
+    // This method sends an AJAX request for the weather data when a marker is clicked
+
     $.ajax({
         type: "GET",
         url: "",
@@ -147,5 +172,5 @@ function setWeatherContent(lat, lng, window) {
 
             window.setContent(content);
         }
-    })
+    });
 }

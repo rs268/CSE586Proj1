@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""
+This file is for django.
+"""
 import os
 import sys
 

@@ -12,9 +12,30 @@ if not sys.warnoptions:
     warnings.simplefilter('ignore')
 
 class AppView(View):
+    """
+        This class consists of the backend code for the view of the application.
+        When the application receives a GET request the get method is called, and depending on the
+        content of the request, the request is relayed to one of the other methods.
+    """
+
     template_name = 'addresses.html'
 
     def get(self, request):
+        """
+        A method that serves GET requests and offloads the processing to other methods.
+
+        Parameters:
+        -----------------------
+        arg1 : request
+            Django HTTPRequest object received from the web page.
+
+        Returns
+        ----------------------
+        HTTPResponse
+            Django HTTPResponse object that, if it has json data is a JsonResponse.
+            Contains either the html for the web page or json data.
+        """
+
         if 'origin' in request.GET:
             return self.get_maps_data(request)
         elif 'lat' in request.GET:
@@ -23,6 +44,21 @@ class AppView(View):
             return render(request, self.template_name, None)
 
     def get_maps_data(self, request):
+        """
+        A method used to get json data from the cache, persistent database, or from the
+        Google Maps API.
+
+        Parameters:
+        -----------------------
+        arg1 : request
+            Django HTTPRequest object received from the web page.
+
+        Returns
+        ----------------------
+        JsonResponse
+            Carries the json data for the requested route.
+        """
+
         origin = request.GET['origin']
         destination = request.GET['destination']
 
@@ -47,6 +83,20 @@ class AppView(View):
         return JsonResponse(directions, safe=False)
 
     def get_weather_data(self, request):
+        """
+        A method used to get json data from the cache, persistent database, or from the
+        OpenWeather API.
+
+        Parameters:
+        -----------------------
+        arg1 : request
+            Django HTTPRequest object received from the web page.
+
+        Returns
+        ----------------------
+        JsonResponse
+            Carries the json data for the requested geo coordinate from the map.
+        """
 
         lat = request.GET['lat']
         lng = request.GET['lng']

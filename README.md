@@ -11,7 +11,21 @@ Next this project uses the Google Maps Python Client, so use pip to install that
 pip install googlemaps
 ```
 
-Next the necessary API keys need to be placed in their necessary locations. These are the API keys for Google Maps API and OpenWeather API. Edit these in the settings.py file in the following way:
+Next the necessary API keys need to be placed in their necessary locations. These are the API keys for Google Maps API and OpenWeather API.
+In javascripts.html there is a line that says:
+```
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=geometry&callback=initMap"></script>
+```
+replace YOUR_API_KEY_HERE with your Google Maps API key.
+
+In apis.py look for:
+```
+gmaps = googlemaps.Client(key='YOUR_API_KEY_HERE')
+```
+and
+```
+url += '&APPID=YOUR_API_KEY_HERE'
+```
 
 Once this is all set up we need to initialize the database. This needs to be done for each phase. Navigate into the folder of the phase that you want to run and use the following commands:
 ```
