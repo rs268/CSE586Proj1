@@ -1,4 +1,6 @@
 var map;
+var markers = [];
+var renderers = [];
 function initMap() {
     map = new google.maps.Map($("#map")[0], {
       center: {lat: 42.880230, lng: -78.878738},
@@ -7,8 +9,8 @@ function initMap() {
 }
 
 function requestDirections() {
-    fromAddress = $("#fromAddress").val();
-    toAddress = $("#toAddress").val();
+    origin = $("#origin").val();
+    destination = $("#destination").val();
 
     var csrftoken = Cookies.get("csrftoken");
 
@@ -22,10 +24,11 @@ function requestDirections() {
         type: "GET",
         url: "",
         data: {
-            "from_address": fromAddress,
-            "to_address": toAddress
+            "origin": origin,
+            "destination": destination
         },
         success: function(result) {
+            console.log(result);
             renderDirections(result);
         }
     });
@@ -66,26 +69,36 @@ function asPath(encodedPolyObject) {
 }
 
 function getRequest() {
-    return {origin: $("#fromAddress").val(), 
-            destination: $("#toAddress").val(), 
+    return {origin: $("#origin").val(), 
+            destination: $("#destination").val(), 
             travelMode: "DRIVING"};
 }
 
 function renderDirections(result) {
+
+    markers.forEach(function(marker) {
+        marker.setMap(null);
+    });
+
+    renderers.forEach(function(renderer) {
+        renderer.setMap(null);
+    });
 
     var directionsDisplay = new google.maps.DirectionsRenderer();
 
     var convertedRoutes = convertRoutes(result);
 
     directionsDisplay.setOptions({
-        directions : {
-            routes : convertedRoutes,
+        directions: {
+            routes: convertedRoutes,
             request: getRequest()
         },
 
         draggable: true,
         map: map
     });
+
+    renderers.push(directionsDisplay);
 
     addMarkers(convertedRoutes[0].overview_path);
 }
@@ -111,6 +124,8 @@ function addMarkers(overview_path) {
             window.setPosition({'lat': lat, 'lng': lng});
             window.open(map);
         });
+
+        markers.push(marker);
     }
 }
 

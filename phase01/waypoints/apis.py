@@ -5,11 +5,11 @@ import requests
 class GoogleMapsAPI:
 
     @staticmethod
-    def get_directions(from_address, to_address):
+    def get_directions(origin, destination):
         now = datetime.now()
         gmaps = googlemaps.Client(key='AIzaSyC4LCIevV75PkJtJaPDi1rbqIkImDgo2S0')
 
-        return gmaps.directions(from_address, to_address, mode='driving', departure_time=now)
+        return gmaps.directions(origin, destination, mode='driving', departure_time=now)
 
 class OpenWeatherAPI:
 
