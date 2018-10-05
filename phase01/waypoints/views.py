@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from django.http import JsonResponse
-from waypoints.apis import GoogleMapsAPI
+from waypoints.apis import GoogleMapsAPI, OpenWeatherAPI
 import json
 
 class AppView(View):
@@ -17,7 +17,7 @@ class AppView(View):
 
     def get_maps_data(self, request):
         #Check for cached response
-        #directions = GoogleMapsAPI.get_directions(request.POST['from_address'], request.POST['to_address'])
+        #directions = GoogleMapsAPI.get_directions(request.GET['from_address'], request.GET['to_address'])
 
         with open('blah.json', 'r') as i:
             directions = json.load(i)
@@ -25,4 +25,18 @@ class AppView(View):
         return JsonResponse(directions, safe=False)
 
     def get_weather_data(self, request):
-        return JsonResponse({})
+        #weather = OpenWeatherAPI.get_weather(request.GET['lat'], request.GET['lng'])
+
+        weather = {"coord":{"lon":139,"lat":35},
+                    "sys":{"country":"JP","sunrise":1369769524,"sunset":1369821049},
+                    "weather":[{"id":804,"main":"clouds","description":"overcast clouds","icon":"04n"}],
+                    "main":{"temp":289.5,"humidity":89,"pressure":1013,"temp_min":287.04,"temp_max":292.04},
+                    "wind":{"speed":7.31,"deg":187.002},
+                    "rain":{"3h":0},
+                    "clouds":{"all":92},
+                    "dt":1369824698,
+                    "id":1851632,
+                    "name":"Shuzenji",
+                    "cod":200}
+
+        return JsonResponse(weather, safe=False)

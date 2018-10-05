@@ -107,14 +107,14 @@ function addMarkers(overview_path) {
             var lat = markerData.latLng.lat();
             var lng = markerData.latLng.lng();
             window.close();
-            window.setContent(getWeatherContent(lat, lng));
+            setWeatherContent(lat, lng, window);
             window.setPosition({'lat': lat, 'lng': lng});
             window.open(map);
         });
     }
 }
 
-function getWeatherContent(lat, lng) {
+function setWeatherContent(lat, lng, window) {
     $.ajax({
         type: "GET",
         url: "",
@@ -124,7 +124,15 @@ function getWeatherContent(lat, lng) {
         }, 
         success: function(result) {
             console.log(result);
+
+            var content = "<p>General: " + result.weather[0].description + "</p>";
+            content += "<p>Wind: " + result.wind.speed.toString() + " m/s</p>";
+            content += "<p>Temperature: " + (result.main.temp - 273.15).toFixed(2) + " C</p>";
+            content += "<p>High Temp: " + (result.main.temp_max - 273.15).toFixed(2) + " C</p>";
+            content += "<p>Low Temp: " + (result.main.temp_min - 273.15).toFixed(2) + " C</p>";
+            content += "<p>Pressure: " + result.main.pressure.toString() + " hpa</p>";
+
+            window.setContent(content);
         }
     })
-    return "Hello world! ".concat(lat.toString()).concat(" ").concat(lng.toString());
 }

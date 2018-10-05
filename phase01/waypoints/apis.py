@@ -1,5 +1,6 @@
 import googlemaps
 from datetime import datetime
+import requests
 
 class GoogleMapsAPI:
 
@@ -14,4 +15,11 @@ class OpenWeatherAPI:
 
     @staticmethod
     def get_weather(lat, lng):
-        pass
+        url = 'http://api.openweathermap.org/data/2.5/weather?'
+        url += 'lat=' + str(lat)
+        url += '&lon=' + str(lng)
+        url += '&APPID=31bc1029c088bbd3d37ee24dd5bfd134'
+
+        response = requests.get(url)
+
+        return response.json()
