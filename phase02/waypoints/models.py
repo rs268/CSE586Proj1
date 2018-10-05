@@ -4,7 +4,10 @@ from django.db import models
 class MapsDataModel(models.Model):
     origin = models.CharField()
     destination = models.CharField()
-    
+    data = models.TextField()
+
 
 class WeatherDataModel(models.Model):
-    pass
+    lat = models.CharField()
+    lng = models.CharField()
+    data = models.TextField()
