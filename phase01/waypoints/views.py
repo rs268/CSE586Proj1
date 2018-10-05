@@ -33,7 +33,7 @@ class AppView(View):
 
         key = str(lat) + ' ' + str(lng)
 
-        #weather = cache.get_or_set(key, OpenWeatherAPI.get_weather(lat, lng), None)
+        weather = cache.get_or_set(key, OpenWeatherAPI.get_weather(lat, lng), None)
 
         # weather = {"coord":{"lon":139,"lat":35},
         #             "sys":{"country":"JP","sunrise":1369769524,"sunset":1369821049},
