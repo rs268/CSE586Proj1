@@ -1,0 +1,29 @@
+{% extends "navbar.html" %}
+
+{% block from_address %}
+<div class="col-sm">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Origin:    </span>
+        </div>
+        <input id="origin" type="text" class="form-control"/>
+    </div>
+</div>
+{% endblock %}
+
+{% block to_address %}
+<div class="col-sm" >
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Destination:</span>
+        </div>
+        <input id="destination" type="text" class="form-control"/>
+    </div>
+</div>
+{% endblock %}
+
+{% block submit_address %}
+<div class="col-sm">
+    <button type="button" class="btn btn-dark" onclick="requestDirections()">Get Route</button>
+</div>
+{% endblock %}

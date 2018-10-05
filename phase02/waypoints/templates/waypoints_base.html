@@ -1,0 +1,48 @@
+<!doctype html5>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Document Info -->
+        <meta name="author" content="Richard Simpson">
+
+        <!-- Bootstrap CSS-->
+        {% include 'css.html' %}
+
+        <title>Waypoints Application</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                {% block navbar %}
+                <!-- Navbar goes here-->
+                {% endblock %}
+            </div>
+            <div class="row">
+                {% block from_address %}
+                <!-- From address -->
+                {% endblock %}
+            </div>
+            <div class="row">
+                {% block to_address %}
+                <!-- To address -->
+                {% endblock %}
+            </div>
+            <div class="row">
+                {% block submit_address %}
+                <!-- Get route button-->
+                {% endblock %}
+            </div>
+            <div class="row" id="map">
+                {% comment %} {% block map %}
+                <!-- Map goes here -->
+                {% endblock %} {% endcomment %}
+            </div>
+        </div>
+        
+        <!-- Include JavaScript -->
+        {% include 'javascripts.html' %}
+    </body>
+</html>
