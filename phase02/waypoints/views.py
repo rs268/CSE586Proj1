@@ -3,6 +3,8 @@ from django.views import View
 from django.http import JsonResponse
 from waypoints.apis import GoogleMapsAPI, OpenWeatherAPI
 from django.core.cache import cache
+from waypoints.models import MapsDataModel, WeatherDataModel
+from django.core.exceptions import ObjectDoesNotExist
 import json
 
 class AppView(View):
@@ -22,7 +24,12 @@ class AppView(View):
 
         key = origin + ' ' + destination
 
-        directions = cache.get_or_set(key, GoogleMapsAPI.get_directions(origin, destination))
+        try:
+            query = MapsDataModel.objects.get(origin=origin, destination=destination)
+            cache.set(key, query.data)
+        except ObjectDoesNotExist:
+            directions = cache.get_or_set(key, GoogleMapsAPI.get_directions(origin, destination))
+            m = MapsDataModel(origin=origin, destination=destination, data=directions.__str__())
 
         return JsonResponse(directions, safe=False)
 
